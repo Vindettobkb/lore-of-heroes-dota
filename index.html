@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101510" />
+    <meta
+      name="description"
+      content="Хроники Древних: истории всех героев Dota 2 и их способности."
+    />
+    <title>Хроники Древних · Dota 2</title>
+    <link rel="icon" href="chronicles-mark.svg" type="image/svg+xml" />
+    <link
+      rel="preconnect"
+      href="https://cdn.cloudflare.steamstatic.com"
+      crossorigin
+    />
+    <link rel="stylesheet" href="tailwind.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="heroes-data.js"></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body data-theme="forest">
+    <a class="skip-link" href="#archive">К героям</a>
+    <div class="reading-progress" aria-hidden="true"></div>
+    <header>
+      <a class="brand" href="#home"
+        ><span class="site-logo"
+          ><img src="chronicles-mark.svg" alt="" width="42" height="42" /></span
+        ><span>ХРОНИКИ<small>Д Р Е В Н И Х</small></span></a
+      >
+      <nav aria-label="Навигация">
+        <a href="#archive">Герои ↗</a><a href="#about">О хрониках</a>
+      </nav>
+      <button
+        id="settings-toggle"
+        class="outline-button transition-colors duration-300 hover:border-amber-200"
+        aria-expanded="false"
+        aria-controls="settings"
+      >
+        ◐ Атмосфера
+      </button>
+    </header>
+    <aside id="settings" hidden aria-label="Настройки фона">
+      <div class="settings-heading">
+        <h2>Ваша атмосфера</h2>
+        <button id="settings-close" aria-label="Закрыть">×</button>
+      </div>
+      <p>Выберите мир для своих хроник.</p>
+      <div class="themes">
+        <button data-theme-choice="forest" aria-pressed="true">● Лес</button
+        ><button data-theme-choice="ember" aria-pressed="false">● Пепел</button
+        ><button data-theme-choice="void" aria-pressed="false">● Бездна</button>
+      </div>
+      <label for="background-upload">Загрузить свой фон</label
+      ><input id="background-upload" type="file" accept="image/*" /><button
+        id="background-reset"
+        class="text-button"
+      >
+        Убрать изображение
+      </button>
+      <p id="background-status" role="status"></p>
+      <details>
+        <summary>Фон в Tailwind · гайд на 3 строки</summary>
+        <p>
+          1. Добавьте к body класс bg-[#18251f].<br />2. Замените #18251f своим
+          цветом.<br />3. Выполните npm run build:css и обновите страницу.
+        </p>
+      </details>
+    </aside>
+    <main>
+      <section id="home" class="welcome">
+        <div class="orbital one" aria-hidden="true"></div>
+        <div class="orbital two" aria-hidden="true"></div>
+        <div class="welcome-content">
+          <p class="eyebrow">— ДОБРО ПОЖАЛОВАТЬ В МИР DOTA 2 —</p>
+          <span class="rune" aria-hidden="true"
+            ><img src="rune.svg" alt=""
+          /></span>
+          <h1>У каждого героя<br />есть <em>история.</em></h1>
+          <p class="welcome-description">
+            До первого сражения. До падения Древних.<br />Откройте легенды тех,
+            кто меняет судьбу этого мира.
+          </p>
+          <a
+            href="#archive"
+            class="primary-button transition-all duration-500 hover:-translate-y-1"
+            >Открыть хроники <span>↓</span></a
+          >
+          <div class="welcome-meta">
+            <span><b data-total>127</b> героев</span><span>·</span
+            ><span>Бесконечная история</span>
+          </div>
+        </div>
+        <div class="hero-bottom">
+          <span>ТЬМА И СВЕТ. ОДНА ЛЕТОПИСЬ.</span
+          ><a href="#archive">Листайте, чтобы узнать больше ↓</a
+          ><span>ТОМ I / ГЕРОИ</span>
+        </div>
+      </section>
+      <section id="archive" class="archive">
+        <div class="archive-heading">
+          <div>
+            <p class="eyebrow">01 / АРХИВ ЛЕГЕНД</p>
+            <h2>Имена, ставшие <em>легендами</em></h2>
+          </div>
+          <p>От A до Z.<br />Найдите свою историю.</p>
+        </div>
+        <div class="archive-tools">
+          <label class="search-box"
+            ><span aria-hidden="true">⌕</span
+            ><input
+              id="hero-search"
+              type="search"
+              aria-label="Найти героя"
+              placeholder="Найти героя…"
+            /><kbd>/</kbd></label
+          ><span id="result-count" role="status"></span
+          ><button id="clear-search" class="text-button" hidden>
+            Сбросить ×
+          </button>
+        </div>
+        <nav
+          id="alphabet"
+          class="alphabet"
+          aria-label="Герои по алфавиту"
+        ></nav>
+        <p id="empty-state" hidden>Герой не найден. Попробуйте другое имя.</p>
+        <div id="heroes"></div>
+        <noscript>Включите JavaScript для просмотра каталога.</noscript>
+      </section>
+      <section id="about" class="ending">
+        <span class="rune" aria-hidden="true"
+          ><img src="rune.svg" alt=""
+        /></span>
+        <p class="eyebrow">ПОСЛЕДНЯЯ СТРАНИЦА. НОВОЕ НАЧАЛО.</p>
+        <h2>Все герои.<br /><em>Один бесконечный мир.</em></h2>
+        <p>
+          Это весь лор героев Dota 2, собранный в одной летописи.<br /><span
+            data-total
+            >127</span
+          >
+          историй о силе, выборе и цене бессмертия.
+        </p>
+        <a href="#home" class="outline-button">Вернуться к началу ↑</a>
+      </section>
+    </main>
+    <footer>
+      <span>ХРОНИКИ ДРЕВНИХ / Фанатский архив</span
+      ><span>Лор и иконки: Valve · Dota 2</span
+      ><a
+        href="https://www.dota2.com/heroes"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Официальный мир Dota 2 ↗</a
+      >
+    </footer>
+    <a class="back-top" href="#home" aria-label="Наверх">↑</a>
+  </body>
+</html>
