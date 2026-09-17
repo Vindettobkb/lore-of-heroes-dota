@@ -2,6 +2,9 @@
 const heroes = [...(window.HEROES || [])].sort((a, b) =>
   a.name.localeCompare(b.name, "en"),
 );
+const items = [...(window.ITEMS || [])].sort((a, b) =>
+  a.name.localeCompare(b.name, "en"),
+);
 const $ = (selector) => document.querySelector(selector);
 const escapeHTML = (value) =>
   String(value ?? "").replace(
@@ -26,6 +29,24 @@ function safeImage(value) {
 const attributes = ["СИЛА", "ЛОВКОСТЬ", "ИНТЕЛЛЕКТ", "УНИВЕРСАЛЬНЫЙ"];
 function note(text, side) {
   return text ? '<div class="side-note">' + escapeHTML(text) + "</div>" : "";
+}
+function itemMonogram(name) {
+  return (name || "")
+    .split(/[\s'-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+}
+function renderItem(item) {
+  const cost =
+    typeof item.cost === "number" ? item.cost + " золота" : String(item.cost || "");
+  return `<button type="button" class="item-card transition-all duration-300" data-item-key="${escapeHTML(item.key)}" data-item-name="${escapeHTML(item.name.toLowerCase())}" data-item-category="${escapeHTML((item.category || "").toLowerCase())}" aria-label="Открыть предмет ${escapeHTML(item.name)}">
+    <span class="item-icon"><span class="item-icon-fallback" aria-hidden="true">${escapeHTML(itemMonogram(item.name) || "✶")}</span>${item.image ? '<img src="' + safeImage(item.image) + '" alt="' + escapeHTML(item.name) + '" loading="lazy" width="96" height="96">' : ""}</span>
+    <span class="item-card-name">${escapeHTML(item.name)}</span>
+    <span class="item-card-meta">${escapeHTML(item.category || "предмет")} · ${escapeHTML(cost)}</span>
+  </button>`;
 }
 function renderHero(hero, index) {
   const lore = hero.lore
@@ -94,6 +115,125 @@ alphabet.addEventListener("click", (event) => {
   }
 });
 filterHeroes();
+function initItemsSection() {
+  const grid = $("#items-grid");
+  const search = $("#item-search");
+  const clear = $("#clear-item-search");
+  const result = $("#item-result-count");
+  const empty = $("#items-empty-state");
+  const filters = $("#item-filters");
+  const modal = $("#item-modal");
+  const modalIcon = $("#item-modal-icon");
+  const modalMonogram = $("#item-modal-monogram");
+  const modalName = $("#item-modal-name");
+  const modalMeta = $("#item-modal-meta");
+  const modalEffect = $("#item-modal-effect");
+  const modalLore = $("#item-modal-lore");
+  if (
+    !grid ||
+    !search ||
+    !clear ||
+    !result ||
+    !empty ||
+    !filters ||
+    !modal ||
+    !modalIcon ||
+    !modalMonogram ||
+    !modalName ||
+    !modalMeta ||
+    !modalEffect ||
+    !modalLore
+  ) {
+    return;
+  }
+  grid.innerHTML = items.map(renderItem).join("");
+  const cards = [...grid.querySelectorAll(".item-card")];
+  const byKey = new Map(items.map((item) => [item.key, item]));
+  let activeCategory = "all";
+  let triggerElement;
+  function applyItemsFilter() {
+    const query = search.value.trim().toLowerCase();
+    cards.forEach((card) => {
+      const matchesName = card.dataset.itemName.includes(query);
+      const matchesCategory =
+        activeCategory === "all" || card.dataset.itemCategory === activeCategory;
+      card.hidden = !(matchesName && matchesCategory);
+    });
+    const visible = cards.filter((card) => !card.hidden);
+    result.textContent = visible.length + " из " + items.length + " предметов";
+    empty.hidden = visible.length > 0;
+    clear.hidden = !query;
+  }
+  function closeItemModal() {
+    modal.hidden = true;
+    document.body.classList.remove("item-modal-open");
+    if (triggerElement) triggerElement.focus();
+  }
+  function openItemModal(item, trigger) {
+    if (!item) return;
+    triggerElement = trigger || null;
+    const cost =
+      typeof item.cost === "number"
+        ? item.cost + " золота"
+        : String(item.cost || "Неизвестно");
+    modalName.textContent = item.name || "Неизвестный предмет";
+    modalMeta.textContent = (item.category || "предмет") + " · " + cost;
+    modalEffect.textContent = plainText(item.effect || "Описание скоро появится.");
+    modalLore.textContent = plainText(item.lore || "Лор пока не добавлен.");
+    modalMonogram.textContent = itemMonogram(item.name) || "✶";
+    if (item.image && safeImage(item.image)) {
+      modalIcon.src = safeImage(item.image);
+      modalIcon.alt = item.name || "";
+      modalIcon.hidden = false;
+    } else {
+      modalIcon.removeAttribute("src");
+      modalIcon.hidden = true;
+    }
+    modal
+      .querySelector(".item-modal-icon-frame")
+      .classList.toggle("image-failed", modalIcon.hidden);
+    modal.hidden = false;
+    document.body.classList.add("item-modal-open");
+    $("#item-modal-close").focus();
+  }
+  search.addEventListener("input", applyItemsFilter);
+  clear.addEventListener("click", () => {
+    search.value = "";
+    applyItemsFilter();
+    search.focus();
+  });
+  filters.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-item-category]");
+    if (!button) return;
+    activeCategory = button.dataset.itemCategory || "all";
+    filters
+      .querySelectorAll("[data-item-category]")
+      .forEach((entry) =>
+        entry.setAttribute(
+          "aria-pressed",
+          String(entry.dataset.itemCategory === activeCategory),
+        ),
+      );
+    applyItemsFilter();
+  });
+  grid.addEventListener("click", (event) => {
+    const card = event.target.closest(".item-card");
+    if (!card) return;
+    openItemModal(byKey.get(card.dataset.itemKey), card);
+  });
+  modal.addEventListener("click", (event) => {
+    if (event.target.closest("[data-item-close], #item-modal-close")) closeItemModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (modal.hidden) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeItemModal();
+    }
+  });
+  applyItemsFilter();
+}
+initItemsSection();
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver(
     (items) =>
@@ -164,6 +304,18 @@ document.addEventListener("keydown", (event) => {
   ) {
     event.preventDefault();
     $("#hero-search").focus();
+  }
+  if (
+    (event.key === "i" || event.key === "I" || event.key === "ш" || event.key === "Ш") &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey &&
+    !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) &&
+    !document.activeElement.isContentEditable &&
+    $("#item-search")
+  ) {
+    event.preventDefault();
+    $("#item-search").focus();
   }
 });
 function setTheme(theme) {
@@ -252,6 +404,20 @@ document.addEventListener(
       const box = image.closest(".hero-logo");
       box.classList.add("logo-failed");
       box.textContent = image.alt.replace(/^Лого\s*/, "").trim()[0] || "✧";
+      return;
+    }
+    if (image.closest(".item-icon")) {
+      const box = image.closest(".item-icon");
+      box.classList.add("image-failed");
+      image.remove();
+      return;
+    }
+    if (image.closest(".item-modal-icon-frame")) {
+      const box = image.closest(".item-modal-icon-frame");
+      const fallback = box.querySelector(".item-icon-fallback");
+      box.classList.add("image-failed");
+      image.hidden = true;
+      if (fallback) fallback.hidden = false;
       return;
     }
     image.hidden = true;

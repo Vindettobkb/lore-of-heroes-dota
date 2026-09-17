@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="tailwind.css" />
     <link rel="stylesheet" href="style.css" />
     <script defer src="heroes-data.js"></script>
+    <script defer src="items-data.js"></script>
     <script defer src="script.js"></script>
   </head>
   <body data-theme="forest">
@@ -30,7 +31,8 @@
         ><span>ХРОНИКИ<small>Д Р Е В Н И Х</small></span></a
       >
       <nav aria-label="Навигация">
-        <a href="#archive">Герои ↗</a><a href="#about">О хрониках</a>
+        <a href="#items">Предметы ↗</a><a href="#archive">Герои ↗</a
+        ><a href="#about">О хрониках</a>
       </nav>
       <button
         id="settings-toggle"
@@ -122,6 +124,62 @@
         <div id="heroes"></div>
         <noscript>Включите JavaScript для просмотра каталога.</noscript>
       </section>
+      <section id="items" class="items-archive">
+        <div class="archive-heading">
+          <div>
+            <p class="eyebrow">02 / АРСЕНАЛ ДРЕВНИХ</p>
+            <h2>Предметы и их <em>легенды</em></h2>
+          </div>
+          <p>Сетка арсенала.<br />Выберите артефакт.</p>
+        </div>
+        <div class="items-tools">
+          <label class="search-box"
+            ><span aria-hidden="true">⌕</span
+            ><input
+              id="item-search"
+              type="search"
+              aria-label="Найти предмет"
+              placeholder="Найти предмет…"
+            /><kbd>I</kbd></label
+          ><span id="item-result-count" role="status"></span
+          ><button id="clear-item-search" class="text-button" hidden>
+            Сбросить ×
+          </button>
+        </div>
+        <div
+          id="item-filters"
+          class="items-filters"
+          role="toolbar"
+          aria-label="Фильтр предметов"
+        >
+          <button type="button" data-item-category="all" aria-pressed="true">
+            Все
+          </button>
+          <button type="button" data-item-category="атрибуты" aria-pressed="false">
+            Атрибуты
+          </button>
+          <button type="button" data-item-category="атака" aria-pressed="false">
+            Атака
+          </button>
+          <button type="button" data-item-category="защита" aria-pressed="false">
+            Защита
+          </button>
+          <button type="button" data-item-category="магия" aria-pressed="false">
+            Магия
+          </button>
+          <button
+            type="button"
+            data-item-category="нейтральные"
+            aria-pressed="false"
+          >
+            Нейтральные
+          </button>
+        </div>
+        <p id="items-empty-state" hidden>
+          Предмет не найден. Попробуйте другое имя или категорию.
+        </p>
+        <div id="items-grid" class="items-grid"></div>
+      </section>
       <section id="about" class="ending">
         <span class="rune" aria-hidden="true"
           ><img src="rune.svg" alt=""
@@ -148,6 +206,44 @@
         >Официальный мир Dota 2 ↗</a
       >
     </footer>
+    <div id="item-modal" class="item-modal" hidden>
+      <button
+        type="button"
+        class="item-modal-backdrop"
+        data-item-close
+        aria-label="Закрыть окно предмета"
+      ></button>
+      <article
+        class="item-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="item-modal-name"
+      >
+        <button
+          id="item-modal-close"
+          type="button"
+          class="item-modal-close"
+          aria-label="Закрыть"
+        >
+          ×
+        </button>
+        <div class="item-modal-head">
+          <div class="item-modal-icon-frame">
+            <span id="item-modal-monogram" class="item-icon-fallback" aria-hidden="true"
+              >✶</span
+            ><img id="item-modal-icon" alt="" loading="lazy" hidden />
+          </div>
+          <div>
+            <h3 id="item-modal-name"></h3>
+            <p id="item-modal-meta"></p>
+          </div>
+        </div>
+        <p class="lore-label">ЭФФЕКТ</p>
+        <p id="item-modal-effect" class="item-modal-text"></p>
+        <p class="lore-label">ЛОР ПРЕДМЕТА</p>
+        <p id="item-modal-lore" class="item-modal-text"></p>
+      </article>
+    </div>
     <a class="back-top" href="#home" aria-label="Наверх">↑</a>
   </body>
 </html>
