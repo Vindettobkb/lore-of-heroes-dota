@@ -8,13 +8,8 @@
       name="description"
       content="Хроники Древних: истории всех героев Dota 2 и их способности."
     />
-    <title>Хроники Древних · Dota 2</title>
+    <title>Хроники Древних · Герои Dota 2</title>
     <link rel="icon" href="chronicles-mark.svg" type="image/svg+xml" />
-    <link
-      rel="preconnect"
-      href="https://cdn.cloudflare.steamstatic.com"
-      crossorigin
-    />
     <link rel="stylesheet" href="tailwind.css" />
     <link rel="stylesheet" href="style.css" />
     <script defer src="heroes-data.js"></script>
@@ -24,13 +19,14 @@
     <a class="skip-link" href="#archive">К героям</a>
     <div class="reading-progress" aria-hidden="true"></div>
     <header>
-      <a class="brand" href="#home"
+      <a class="brand" href="index.html#home"
         ><span class="site-logo"
           ><img src="chronicles-mark.svg" alt="" width="42" height="42" /></span
         ><span>ХРОНИКИ<small>Д Р Е В Н И Х</small></span></a
       >
       <nav aria-label="Навигация">
-        <a href="#archive">Герои ↗</a><a href="#about">О хрониках</a>
+        <a href="#archive">Герои ↗</a><a href="page2.html#arsenal">Предметы ↗</a
+        ><a href="#about">О хрониках</a>
       </nav>
       <button
         id="settings-toggle"
@@ -67,9 +63,7 @@
         <div class="orbital two" aria-hidden="true"></div>
         <div class="welcome-content">
           <p class="eyebrow">— ДОБРО ПОЖАЛОВАТЬ В МИР DOTA 2 —</p>
-          <span class="rune" aria-hidden="true"
-            ><img src="rune.svg" alt=""
-          /></span>
+          <span class="rune" aria-hidden="true"><img src="rune.svg" alt="" /></span>
           <h1>У каждого героя<br />есть <em>история.</em></h1>
           <p class="welcome-description">
             До первого сражения. До падения Древних.<br />Откройте легенды тех,
@@ -113,28 +107,23 @@
             Сбросить ×
           </button>
         </div>
-        <nav
-          id="alphabet"
-          class="alphabet"
-          aria-label="Герои по алфавиту"
-        ></nav>
+        <nav id="alphabet" class="alphabet" aria-label="Герои по алфавиту"></nav>
         <p id="empty-state" hidden>Герой не найден. Попробуйте другое имя.</p>
         <div id="heroes"></div>
         <noscript>Включите JavaScript для просмотра каталога.</noscript>
       </section>
       <section id="about" class="ending">
-        <span class="rune" aria-hidden="true"
-          ><img src="rune.svg" alt=""
-        /></span>
+        <span class="rune" aria-hidden="true"><img src="rune.svg" alt="" /></span>
         <p class="eyebrow">ПОСЛЕДНЯЯ СТРАНИЦА. НОВОЕ НАЧАЛО.</p>
         <h2>Все герои.<br /><em>Один бесконечный мир.</em></h2>
         <p>
-          Это весь лор героев Dota 2, собранный в одной летописи.<br /><span
+          Это архив героев Dota 2, собранный в одной летописи.<br /><span
             data-total
             >127</span
           >
           историй о силе, выборе и цене бессмертия.
         </p>
+        <a href="page2.html#arsenal" class="primary-button">Открыть арсенал ↗</a>
         <a href="#home" class="outline-button">Вернуться к началу ↑</a>
       </section>
     </main>

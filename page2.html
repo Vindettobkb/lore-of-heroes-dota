@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101510" />
+    <meta
+      name="description"
+      content="Полный архив обычных и нейтральных предметов Dota 2: характеристики, параметры и лор."
+    />
+    <title>Хроники Древних · Арсенал Dota 2</title>
+    <link rel="icon" href="chronicles-mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="tailwind.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="items-data.js"></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body data-theme="forest">
+    <a class="skip-link" href="#arsenal">К арсеналу</a>
+    <div class="reading-progress" aria-hidden="true"></div>
+    <header>
+      <a class="brand" href="index.html#home"
+        ><span class="site-logo"
+          ><img src="chronicles-mark.svg" alt="" width="42" height="42" /></span
+        ><span>ХРОНИКИ<small>Д Р Е В Н И Х</small></span></a
+      >
+      <nav aria-label="Навигация">
+        <a href="index.html#archive">Герои ↗</a><a href="#arsenal">Предметы ↗</a
+        ><a href="index.html#about">О хрониках</a>
+      </nav>
+      <button
+        id="settings-toggle"
+        class="outline-button transition-colors duration-300 hover:border-amber-200"
+        aria-expanded="false"
+        aria-controls="settings"
+      >
+        ◐ Атмосфера
+      </button>
+    </header>
+    <aside id="settings" hidden aria-label="Настройки фона">
+      <div class="settings-heading">
+        <h2>Ваша атмосфера</h2>
+        <button id="settings-close" aria-label="Закрыть">×</button>
+      </div>
+      <p>Выберите мир для своих хроник.</p>
+      <div class="themes">
+        <button data-theme-choice="forest" aria-pressed="true">● Лес</button
+        ><button data-theme-choice="ember" aria-pressed="false">● Пепел</button
+        ><button data-theme-choice="void" aria-pressed="false">● Бездна</button>
+      </div>
+      <label for="background-upload">Загрузить свой фон</label
+      ><input id="background-upload" type="file" accept="image/*" /><button
+        id="background-reset"
+        class="text-button"
+      >
+        Убрать изображение
+      </button>
+      <p id="background-status" role="status"></p>
+    </aside>
+    <main>
+      <section class="catalog-cover">
+        <p class="eyebrow">— ТОМ II / АРСЕНАЛ ДРЕВНИХ —</p>
+        <span class="rune" aria-hidden="true"><img src="rune.svg" alt="" /></span>
+        <h1>Реликвии, что меняют <em>судьбу.</em></h1>
+        <p>
+           Обычные предметы и нейтральные находки всех пяти разрядов.<br />
+          Откройте карточку, чтобы увидеть параметры и полную летопись.
+        </p>
+        <a href="#arsenal" class="primary-button">Открыть каталог <span>↓</span></a>
+      </section>
+      <section id="arsenal" class="arsenal" aria-labelledby="arsenal-title">
+        <div class="arsenal-heading">
+          <div>
+            <p class="eyebrow">02 / ПОЛНЫЙ АРХИВ ПРЕДМЕТОВ</p>
+            <h2 id="arsenal-title">Каждая реликвия<br /><em>имеет цену.</em></h2>
+          </div>
+          <p>Обычные и нейтральные.<br />Все записи в одном месте.</p>
+        </div>
+        <div class="arsenal-tools">
+          <label class="search-box item-search-box"
+            ><span aria-hidden="true">⌕</span
+            ><input
+              id="item-search"
+              type="search"
+              aria-label="Найти предмет"
+              placeholder="Найти предмет, эффект или лор…"
+            /><kbd>/</kbd></label
+          ><span id="item-count" role="status" aria-live="polite"></span
+          ><button id="clear-item-search" class="text-button" hidden>
+            Сбросить ×
+          </button>
+        </div>
+        <nav id="item-filters" class="item-filters" aria-label="Фильтр предметов">
+          <button type="button" data-item-filter="all" aria-pressed="true">Все</button>
+          <button type="button" data-item-filter="обычные" aria-pressed="false">Обычные</button>
+          <button type="button" data-item-filter="нейтральные" aria-pressed="false">Нейтральные</button>
+          <span class="item-filter-heading" aria-hidden="true">Основные</span>
+          <button type="button" data-item-filter="basic-consumables" aria-pressed="false">Расходники</button>
+          <button type="button" data-item-filter="basic-attributes" aria-pressed="false">Атрибуты</button>
+          <button type="button" data-item-filter="basic-equipment" aria-pressed="false">Снаряжение</button>
+          <button type="button" data-item-filter="basic-misc" aria-pressed="false">Разное</button>
+          <button type="button" data-item-filter="basic-secret-shop" aria-pressed="false">Потайная лавка</button>
+          <span class="item-filter-heading" aria-hidden="true">Улучшения</span>
+          <button type="button" data-item-filter="upgrade-accessories" aria-pressed="false">Аксессуары</button>
+          <button type="button" data-item-filter="upgrade-support" aria-pressed="false">Поддержка</button>
+          <button type="button" data-item-filter="upgrade-magic" aria-pressed="false">Магия</button>
+          <button type="button" data-item-filter="upgrade-armor" aria-pressed="false">Броня</button>
+          <button type="button" data-item-filter="upgrade-weapons" aria-pressed="false">Оружие</button>
+          <button type="button" data-item-filter="upgrade-artifacts" aria-pressed="false">Вооружение</button>
+          <span class="item-filter-heading" aria-hidden="true">Нейтральные</span>
+          <button type="button" data-item-filter="tier-1" aria-pressed="false">Разряд I</button>
+          <button type="button" data-item-filter="tier-2" aria-pressed="false">Разряд II</button>
+          <button type="button" data-item-filter="tier-3" aria-pressed="false">Разряд III</button>
+          <button type="button" data-item-filter="tier-4" aria-pressed="false">Разряд IV</button>
+          <button type="button" data-item-filter="tier-5" aria-pressed="false">Разряд V</button>
+        </nav>
+        <p id="item-empty-state" class="item-empty-state" hidden>
+          Реликвия не найдена. Попробуйте другое имя, эффект или категорию.
+        </p>
+        <div id="item-grid" class="item-grid" aria-live="polite"></div>
+        <noscript>Включите JavaScript для просмотра каталога предметов.</noscript>
+      </section>
+      <dialog id="item-dialog" class="item-dialog" aria-modal="true" aria-labelledby="item-dialog-title">
+        <div class="item-dialog-inner">
+          <div class="item-dialog-header">
+            <p class="eyebrow">ЗАПИСЬ ИЗ АРХИВА</p>
+            <button id="item-dialog-close" class="dialog-close" type="button" aria-label="Закрыть подробности предмета">×</button>
+          </div>
+          <div class="item-dialog-content">
+            <div id="item-dialog-icon" class="item-dialog-icon" role="img" aria-label="Иконка предмета"></div>
+            <div class="item-dialog-copy">
+              <p id="item-dialog-kind" class="item-dialog-kind"></p>
+              <p id="item-dialog-category" class="item-dialog-category"></p>
+              <h3 id="item-dialog-title"></h3>
+              <p id="item-dialog-cost" class="item-dialog-cost"></p>
+              <div class="item-detail-block">
+                <p class="item-detail-label">ИГРОВОЙ ЭФФЕКТ</p>
+                <p id="item-dialog-effect"></p>
+              </div>
+              <div class="item-detail-block">
+                <p class="item-detail-label">ХАРАКТЕРИСТИКИ И ПАРАМЕТРЫ</p>
+                <p id="item-dialog-parameters" class="item-dialog-parameters"></p>
+              </div>
+              <details class="item-detail-block item-lore-details" open>
+                <summary class="item-detail-label">ПОЛНЫЙ ЛОР ПРЕДМЕТА</summary>
+                <p id="item-dialog-lore"></p>
+              </details>
+            </div>
+          </div>
+        </div>
+      </dialog>
+      <section class="ending">
+        <span class="rune" aria-hidden="true"><img src="rune.svg" alt="" /></span>
+        <p class="eyebrow">АРСЕНАЛ ЗАПИСАН В ЛЕТОПИСЬ</p>
+         <h2>От первой ветви<br /><em>до реликвии разряда V.</em></h2>
+        <p>Возвращайтесь к героям, чтобы увидеть, кто способен вынести эту силу.</p>
+        <div class="ending-actions">
+          <a href="index.html#archive" class="return-to-heroes">
+            <span>Вернуться к героям</span><span class="return-to-heroes-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span>ХРОНИКИ ДРЕВНИХ / Фанатский архив</span
+      ><span>Лор и иконки: Valve · Dota 2</span
+      ><a
+        href="https://www.dota2.com/items"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Официальный мир Dota 2 ↗</a
+      >
+    </footer>
+    <a class="back-top" href="#arsenal" aria-label="Наверх">↑</a>
+  </body>
+</html>
